@@ -5,7 +5,8 @@ cd "$(dirname "$0")" &&
 	source .env
 
 # Calculate the percentage of memory usage
-FREE_MEMORY_USAGE=$(/usr/bin/free | /usr/bin/awk '/Mem:/ {printf("%.0f"), (1 - $3/$2) * 100}')
+FREE_MEMORY=$(/usr/bin/free)
+FREE_MEMORY_USAGE=$(echo "${FREE_MEMORY}" | /usr/bin/awk '/Mem:/ {printf("%.0f"), (1 - $3/$2) * 100}')
 
 # Check if memory usage exceeds the specified memory limit
 if [[ ${FREE_MEMORY_USAGE} -ge ${MEMORY_USAGE_LIMIT} ]]; then

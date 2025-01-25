@@ -5,7 +5,8 @@ cd "$(dirname "$0")" &&
 	source .env
 
 # Calculate the percentage of swap usage
-SWAP_USAGE=$(/usr/bin/free | /usr/bin/awk '/Swap:/ {printf("%.0f"), $3/$2 * 100}')
+SWAP_OUTPUT=$(/usr/bin/free)
+SWAP_USAGE=$(echo "${SWAP_OUTPUT}" | /usr/bin/awk '/Swap:/ {printf("%.0f"), $3/$2 * 100}')
 
 # Check if swap usage is less than the specified swap limit
 if [[ ${SWAP_USAGE} -lt ${SWAP_USAGE_LIMIT} ]]; then

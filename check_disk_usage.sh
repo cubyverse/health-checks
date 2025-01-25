@@ -5,7 +5,9 @@ cd "$(dirname "$0")" &&
 	source .env
 
 # Calculate the percentage of free disk space
-FREE_DISK_USAGE=$(df -h / | awk 'FNR == 2 {print 100 - $5}' | sed 's/%//')
+DISK_USAGE=$(df -h / | awk 'FNR == 2 {print $5}') || true
+DISK_USAGE=${DISK_USAGE//%/}
+FREE_DISK_USAGE=$((100 - DISK_USAGE))
 
 # Check if free disk usage is greater than or equal to the specified limit
 if [[ ${FREE_DISK_USAGE} -ge ${DISK_USAGE_LIMIT} ]]; then
