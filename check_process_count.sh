@@ -5,7 +5,8 @@ cd "$(dirname "$0")" &&
 	source .env
 
 # Count the number of running processes
-PROCESS_COUNT=$(/usr/bin/ps -ef | wc -l)
+PROCESS_COUNT=$(/usr/bin/ps -ef || true)
+PROCESS_COUNT=$(echo "${PROCESS_COUNT}" | wc -l)
 
 # Check if the process count is less than or equal to the specified limit
 if [[ ${PROCESS_COUNT} -le ${PROCESS_COUNT_LIMIT} ]]; then

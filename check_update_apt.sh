@@ -5,7 +5,9 @@ cd "$(dirname "$0")" &&
 	source .env
 
 # Get the list of upgradable packages and count the lines, suppressing warnings
-updates=$(/usr/bin/sudo /usr/bin/apt-get update >/dev/null && /usr/bin/sudo /usr/bin/apt list --upgradable 2>/dev/null | /usr/bin/grep -c "/")
+/usr/bin/sudo /usr/bin/apt-get update >/dev/null || true
+upgradable_list=$(/usr/bin/sudo /usr/bin/apt list --upgradable 2>/dev/null || true)
+updates=$(echo "${upgradable_list}" | /usr/bin/grep -c "/")
 
 # Check if there are updates available
 if [[ ${updates} -eq 0 ]]; then
